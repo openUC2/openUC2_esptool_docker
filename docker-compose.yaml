@@ -1,0 +1,15 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  esp32-flash:
+    build: .
+    environment:
+      - ESPPORT=/dev/ttyUSB0      # override if needed
+      - BAUD=460800               # override if needed
+      - FLASH_OFFSET=0x0          # override if your image uses a different offset
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    privileged: true
+    restart: "no"
+
