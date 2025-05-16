@@ -1,15 +1,15 @@
-# docker-compose.yml
 version: "3.8"
-
 services:
-  esp32-flash:
+  esptool:
     build: .
+    # Mount a custom firmware binary if desired
+    volumes:
+      - ./firmware_build:/tmp/firmware_build:ro   # Mount local firmware folder (optional)
+      - /dev:/dev                                 # For serial port access
     environment:
-      - ESPPORT=/dev/ttyUSB0      # override if needed
-      - BAUD=460800               # override if needed
-      - FLASH_OFFSET=0x0          # override if your image uses a different offset
+      - UPDATE_FIRMWARE=true                     # Set to true to force update from repo
+      - ESPPORT=/dev/ttyUSB0                      # Adjust as needed
+      - FIRMWARE_BIN_PATH=/tmp/firmware_build/esp32_UC2_3_CAN_HAT_Master.bin  # Uncomment to use a custom binary
     devices:
-      - "/dev/ttyUSB0:/dev/ttyUSB0"
-    privileged: true
-    restart: "no"
-
+      - /dev/ttyUSB0:/dev/ttyUSB0                 # Adjust as needed
+    privileged: true                              # Needed for serial access
