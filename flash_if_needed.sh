@@ -1,4 +1,3 @@
-# flash_if_needed.sh
 #!/usr/bin/env bash
 set -euo pipefail
 
